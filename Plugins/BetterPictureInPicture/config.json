@@ -1,0 +1,52 @@
+{
+  "main": "index.js",
+  "info": {
+    "name": "Better Picture-in-Picture",
+    "authors": [{
+      "name": "nik9",
+      "discord_id": "241175583709593600",
+      "github_username": "nik9play"
+    }],
+    "version": "0.0.1",
+    "description": "Change size of the Picture-in-Picture popup.",
+    "github": "",
+    "github_raw": ""
+  },
+  "defaultConfig": [
+    {
+      "type": "slider",
+      "id": "popupsize",
+      "name": "PiP size",
+      "note": "Set the PiP popup size in percent",
+      "value": 100,
+      "min": 100,
+      "max": 300,
+      "markers": [100, 110, 125, 150, 175, 200, 250, 300],
+      "stickToMarkers": false,
+      "units": "%"
+    },
+    {
+      "type": "switch",
+      "id": "customswitch",
+      "name": "Use custom size",
+      "note": "Use custom size in pixels",
+      "value": false
+    },
+    {
+      "type": "textbox",
+      "id": "customwidth",
+      "name": "Width",
+      "note": "Set the width of popup",
+      "value": "320",
+      "placeholder": "Size in pixels"
+    },
+    {
+      "type": "textbox",
+      "id": "customheight",
+      "name": "Height",
+      "note": "Set the height of popup",
+      "value": "180",
+      "placeholder": "Size in pixels"
+    }
+  ]
+}
