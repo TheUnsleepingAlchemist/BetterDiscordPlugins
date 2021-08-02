@@ -26,6 +26,8 @@ module.exports = (Plugin, Library) => {
             } else {
               let scale = parseFloat(self.settings['popupsize'])
               scale += e.deltaY * -0.1
+              if (scale < 100) scale = 100
+              if (scale > 300) scale = 300
               self.settings['popupsize'] = scale
             }
             self.setSize()
