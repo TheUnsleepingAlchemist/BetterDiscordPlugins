@@ -13,7 +13,7 @@
     "authorLink": "https://megaworld.space",
     "paypalLink": "https://vk.com/app6887721_-197274096",
     "github": "https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture",
-    "github_raw": "https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Plugins/BetterPictureInPicture/result/BetterPictureInPicture.plugin.js"
+    "github_raw": "https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"
   },
   "defaultConfig": [
     {
@@ -31,8 +31,8 @@
     {
       "type": "switch",
       "id": "customswitch",
-      "name": "Use custom size",
-      "note": "Use custom size in pixels",
+      "name": "Set custom size",
+      "note": "Set custom size in pixels",
       "value": false
     },
     {
