@@ -31,7 +31,7 @@
 @else@*/
 
 module.exports = (() => {
-    const config = {"main":"index.js","info":{"name":"BetterPictureInPicture","authors":[{"name":"nik9","discord_id":"241175583709593600","github_username":"nik9play"}],"version":"0.0.1","description":"Allows you to resize the Picture-in-Picture popup.","inviteCode":"3ts2znePu7","authorLink":"https://megaworld.space","paypalLink":"https://vk.com/app6887721_-197274096","github":"https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture","github_raw":"https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"},"defaultConfig":[{"type":"slider","id":"popupsize","name":"PiP size","note":"Set the PiP popup size in percent","value":100,"min":100,"max":300,"markers":[100,110,125,150,175,200,250,300],"stickToMarkers":false,"units":"%"},{"type":"switch","id":"customswitch","name":"Set custom size","note":"Set custom size in pixels","value":false},{"type":"textbox","id":"customwidth","name":"Width","note":"Set the width of popup","value":"320","placeholder":"Size in pixels"},{"type":"textbox","id":"customheight","name":"Height","note":"Set the height of popup","value":"180","placeholder":"Size in pixels"}]};
+    const config = {"main":"index.js","info":{"name":"BetterPictureInPicture","authors":[{"name":"nik9","discord_id":"241175583709593600","github_username":"nik9play"}],"version":"0.0.2","description":"Allows you to resize the Picture-in-Picture popup with mouse wheel.","inviteCode":"3ts2znePu7","authorLink":"https://megaworld.space","paypalLink":"https://vk.com/app6887721_-197274096","github":"https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture","github_raw":"https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"},"defaultConfig":[{"type":"slider","id":"popupsize","name":"PiP size","note":"Set the PiP popup size in percent","value":100,"min":100,"max":300,"markers":[100,110,125,150,175,200,250,300],"stickToMarkers":false,"units":"%"},{"type":"switch","id":"customswitch","name":"Set custom size","note":"Set custom size in pixels","value":false},{"type":"textbox","id":"customwidth","name":"Width","note":"Set the width of popup","value":"320","placeholder":"Size in pixels"},{"type":"textbox","id":"customheight","name":"Height","note":"Set the height of popup","value":"180","placeholder":"Size in pixels"}]};
 
     return !global.ZeresPluginLibrary ? class {
         constructor() {this._config = config;}
@@ -55,24 +55,58 @@ module.exports = (() => {
         stop() {}
     } : (([Plugin, Api]) => {
         const plugin = (Plugin, Library) => {
-  const { Logger } = Library
+  const { Logger, DOMTools } = Library
 
   return class BetterPictureInPicture extends Plugin {
 
     onStart() {
-      Logger.log("Started")
+      Logger.log('Started')
       this.setSize()
+
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .5s ease-in-out, height .5s ease-in-out}`)
+
+      const self = this
+
+      DOMTools.observer.subscribe(changes => {
+        if (changes.addedNodes.length > 0) {
+          Logger.log('PiP started.')
+          changes.target.onwheel = e => {
+            if (self.settings['customswitch']) {
+              let scaleX = parseFloat(self.settings['customwidth'])
+              scaleX += e.deltaY * -0.1
+              let scaleY = parseFloat(self.settings['customheight'])
+              scaleY += e.deltaY * -0.1
+              
+              self.settings['customwidth'] = scaleX
+              self.settings['customheight'] = scaleY
+            } else {
+              let scale = parseFloat(self.settings['popupsize'])
+              scale += e.deltaY * -0.1
+              self.settings['popupsize'] = scale
+            }
+            self.setSize()
+            self.saveSettings(self.settings)
+          }
+        }
+        if (changes.removedNodes.length > 0) {
+          Logger.log('PiP stopped.')
+        }
+      },
+      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture-') }
+      )
     }
 
     onStop() {
-      Logger.log("Stopped")
+      Logger.log('Stopped')
       BdApi.clearCSS('betterpictureinpicturecss')
+      BdApi.clearCSS('betterpictureinpicturecss-animation')
+      DOMTools.observer.unsubscribeAll()
     }
 
     setSize() {
+      Logger.log('Size changed')
       BdApi.clearCSS('betterpictureinpicturecss')
       if (this.settings['customswitch']) {
-        Logger.log(this.settings['customwidth'])
         BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: ${this.settings['customwidth']}px!important;height:${this.settings['customheight']}px!important}`)
       } else {
         const width = 320 * (this.settings['popupsize'] / 100)
