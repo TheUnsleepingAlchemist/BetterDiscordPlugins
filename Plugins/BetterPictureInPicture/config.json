@@ -7,7 +7,7 @@
       "discord_id": "241175583709593600",
       "github_username": "nik9play"
     }],
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Allows you to resize the Picture-in-Picture popup with mouse wheel.",
     "inviteCode": "3ts2znePu7",
     "authorLink": "https://megaworld.space",
@@ -15,6 +15,10 @@
     "github": "https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture",
     "github_raw": "https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"
   },
+  "changelog": [
+    {"title": "Mouse wheel zoom", "items": ["Now you can change size of popup with mouse wheel."]},
+    {"title": "Fixes", "items": ["A lot of fixes."]}
+  ],
   "defaultConfig": [
     {
       "type": "slider",
@@ -27,6 +31,13 @@
       "markers": [100, 110, 125, 150, 175, 200, 250, 300],
       "stickToMarkers": false,
       "units": "%"
+    },
+    {
+      "type": "switch",
+      "id": "hideswitch",
+      "name": "Hide the PiP popup",
+      "note": "Hide the PiP popup completely",
+      "value": false
     },
     {
       "type": "switch",
