@@ -11,7 +11,7 @@ module.exports = (Plugin, Library) => {
         BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
       }
 
-      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .5s cubic-bezier(0.68,-0.55,0.27,1.55), height .5s cubic-bezier(0.68,-0.55,0.27,1.55)}`)
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .5s cubic-bezier(0.65,0.05,0.36,1), height .5s cubic-bezier(0.65,0.05,0.36,1);}`)
 
       DOMTools.observer.subscribe(changes => {
         if (changes.addedNodes.length > 0) {
@@ -45,7 +45,7 @@ module.exports = (Plugin, Library) => {
         this.saveSettings(this.settings)
       }
 
-      this.wheelSize = _.throttle(wheelSize.bind(this), 0)
+      this.wheelSize = wheelSize.bind(this)
       
       const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
       if (window)
