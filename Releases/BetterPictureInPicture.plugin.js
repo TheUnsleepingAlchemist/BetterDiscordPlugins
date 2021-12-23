@@ -86,7 +86,7 @@ module.exports = (() => {
           let scaleX = parseFloat(this.settings['customwidth'])
           scaleX += e.deltaY * -0.1
           let scaleY = parseFloat(this.settings['customheight'])
-          scaleY += e.deltaY * -0.1
+          scaleY += e.deltaY * -0.05625
           
           this.settings['customwidth'] = scaleX
           this.settings['customheight'] = scaleY
