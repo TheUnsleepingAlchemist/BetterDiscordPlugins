@@ -1,5 +1,5 @@
 module.exports = (Plugin, Library) => {
-  const { Logger, DOMTools, ReactTools } = Library
+  const { Logger, DOMTools } = Library
 
   return class BetterPictureInPicture extends Plugin {
 
@@ -11,7 +11,8 @@ module.exports = (Plugin, Library) => {
         BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
       }
 
-      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .5s cubic-bezier(0.65,0.05,0.36,1), height .5s cubic-bezier(0.65,0.05,0.36,1);}`)
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
+      BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: var(--bpip-width);height:var(--bpip-height)!important}`)
 
       DOMTools.observer.subscribe(changes => {
         if (changes.addedNodes.length > 0) {
@@ -57,6 +58,8 @@ module.exports = (Plugin, Library) => {
       BdApi.clearCSS('betterpictureinpicturecss')
       BdApi.clearCSS('betterpictureinpicturecss-animation')
       BdApi.clearCSS('betterpictureinpicturecss-hide')
+      BdApi.clearCSS('betterpictureinpicture-vars')
+
       DOMTools.observer.unsubscribeAll()
 
       const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
@@ -69,16 +72,14 @@ module.exports = (Plugin, Library) => {
 
     setSize() {
       Logger.log('Size changed')
-      BdApi.clearCSS('betterpictureinpicturecss')
+      BdApi.clearCSS('betterpictureinpicture-vars')
       if (this.settings['customswitch']) {
-        BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: ${this.settings['customwidth']}px!important;height:${this.settings['customheight']}px!important}`)
+        BdApi.injectCSS('betterpictureinpicture-vars', `:root {--bpip-width: ${this.settings['customwidth']}px; --bpip-height: ${this.settings['customheight']}px;}`)
       } else {
         const width = 320 * (this.settings['popupsize'] / 100)
         const height = 180 * (this.settings['popupsize'] / 100)
 
-        BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: ${width}px!important;height:${height}px!important}`)
-        // BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureWindow-"] {transform: scale(${this.settings['popupsize'] / 100})!important}`)
-      }
+        BdApi.injectCSS('betterpictureinpicture-vars', `:root {--bpip-width: ${width}px; --bpip-height: ${height}px;}`)      }
     }
 
     getSettingsPanel() {
