@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "zerespluginlibrary": "^2.0.6"
+  },
+  "name": "betterdiscordplugins",
+  "description": "My plugins for BetterDiscord",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "build": "zpl build",
+    "init": "zpl init"
+  },
+  "author": "",
+  "license": "ISC"
+}
