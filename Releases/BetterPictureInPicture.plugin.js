@@ -31,7 +31,7 @@
 @else@*/
 
 module.exports = (() => {
-    const config = {"main":"index.js","info":{"name":"BetterPictureInPicture","authors":[{"name":"nik9","discord_id":"241175583709593600","github_username":"nik9play"}],"version":"0.0.3","description":"Allows you to resize the Picture-in-Picture popup with mouse wheel.","inviteCode":"3ts2znePu7","authorLink":"https://megaworld.space","paypalLink":"https://vk.com/app6887721_-197274096","github":"https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture","github_raw":"https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"},"changelog":[{"title":"Mouse wheel zoom","items":["Now you can change size of popup with mouse wheel."]},{"title":"Fixes","items":["A lot of fixes."]}],"defaultConfig":[{"type":"slider","id":"popupsize","name":"PiP size","note":"Set the PiP popup size in percent","value":100,"min":100,"max":300,"markers":[100,110,125,150,175,200,250,300],"stickToMarkers":false,"units":"%"},{"type":"switch","id":"hideswitch","name":"Hide the PiP popup","note":"Hide the PiP popup completely","value":false},{"type":"switch","id":"customswitch","name":"Set custom size","note":"Set custom size in pixels","value":false},{"type":"textbox","id":"customwidth","name":"Width","note":"Set the width of popup","value":"320","placeholder":"Size in pixels"},{"type":"textbox","id":"customheight","name":"Height","note":"Set the height of popup","value":"180","placeholder":"Size in pixels"}]};
+    const config = {"main":"index.js","info":{"name":"BetterPictureInPicture","authors":[{"name":"nik9","discord_id":"241175583709593600","github_username":"nik9play"}],"version":"0.0.3","description":"Allows you to resize the Picture-in-Picture popup with mouse wheel.","inviteCode":"3ts2znePu7","authorLink":"https://megaworld.space","paypalLink":"https://vk.com/app6887721_-197274096","github":"https://github.com/nik9play/BetterDiscordPlugins/tree/main/Plugins/BetterPictureInPicture","github_raw":"https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"},"changelog":[{"title":"Mouse wheel zoom","items":["Now you can change size of popup with mouse wheel."]},{"title":"Fixes","items":["A lot of fixes."]}],"defaultConfig":[{"type":"slider","id":"popupsize","name":"PiP size","note":"Set the PiP popup size in percent","value":100,"min":50,"max":300,"markers":[50,75,100,125,150,175,200,250,300],"stickToMarkers":false,"units":"%"},{"type":"switch","id":"hideswitch","name":"Hide the PiP popup","note":"Hide the PiP popup completely","value":false},{"type":"switch","id":"customswitch","name":"Set custom size","note":"Set custom size in pixels","value":false},{"type":"textbox","id":"customwidth","name":"Width","note":"Set the width of popup","value":"320","placeholder":"Size in pixels"},{"type":"textbox","id":"customheight","name":"Height","note":"Set the height of popup","value":"180","placeholder":"Size in pixels"}]};
 
     return !global.ZeresPluginLibrary ? class {
         constructor() {this._config = config;}
@@ -67,7 +67,7 @@ module.exports = (() => {
         BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
       }
 
-      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .5s cubic-bezier(0.65,0.05,0.36,1), height .5s cubic-bezier(0.65,0.05,0.36,1);}`)
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
 
       DOMTools.observer.subscribe(changes => {
         if (changes.addedNodes.length > 0) {
@@ -86,14 +86,14 @@ module.exports = (() => {
           let scaleX = parseFloat(this.settings['customwidth'])
           scaleX += e.deltaY * -0.1
           let scaleY = parseFloat(this.settings['customheight'])
-          scaleY += e.deltaY * -0.1
+          scaleY += e.deltaY * -0.05625
           
           this.settings['customwidth'] = scaleX
           this.settings['customheight'] = scaleY
         } else {
           let scale = parseFloat(this.settings['popupsize'])
           scale += e.deltaY * -0.1
-          if (scale < 100) scale = 100
+          if (scale < 50) scale = 50
           if (scale > 300) scale = 300
           this.settings['popupsize'] = scale
         }
