@@ -8,11 +8,11 @@ module.exports = (Plugin, Library) => {
       this.setSize()
       // Logger.log(_.defaults({ 'a': 1 }, { 'a': 3, 'b': 2 }))
       if (this.settings['hideswitch']) {
-        BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
+        BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow_"] {display:none!important}`)
       }
 
-      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
-      BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: var(--bpip-width);height:var(--bpip-height)!important}`)
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo_"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
+      BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo_"] {width: var(--bpip-width);height:var(--bpip-height)!important}`)
 
       DOMTools.observer.subscribe(changes => {
         if (changes.addedNodes.length > 0) {
@@ -23,7 +23,7 @@ module.exports = (Plugin, Library) => {
           Logger.log('PiP stopped.')
         }
       },
-      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture-') }
+      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture__') }
       )
 
       function wheelSize(e) {
@@ -48,7 +48,7 @@ module.exports = (Plugin, Library) => {
 
       this.wheelSize = wheelSize.bind(this)
       
-      const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
+      const window = DOMTools.query('div[class^="pictureInPictureWindow_"]')
       if (window)
         this.onPipStarted(window)
     }
@@ -62,7 +62,7 @@ module.exports = (Plugin, Library) => {
 
       DOMTools.observer.unsubscribeAll()
 
-      const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
+      const window = DOMTools.query('div[class^="pictureInPictureWindow_"]')
       window?.removeEventListener('wheel', this.wheelSize)
     }
 
@@ -93,7 +93,7 @@ module.exports = (Plugin, Library) => {
 
         if (this.settings['hideswitch']) {
           BdApi.clearCSS('betterpictureinpicturecss-hide')
-          BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
+          BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow_"] {display:none!important}`)
         } else {
           BdApi.clearCSS('betterpictureinpicturecss-hide')
         }
