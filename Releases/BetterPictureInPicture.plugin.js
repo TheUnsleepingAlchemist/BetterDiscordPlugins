@@ -1,7 +1,7 @@
 /**
  * @name BetterPictureInPicture
  * @description Simple plugin that allows you to resize the picture-in-picture popup using the mouse wheel and the settings.
- * @version 0.0.4
+ * @version 0.0.5
  * @author nik9
  * @authorId 241175583709593600
  * @authorLink https://megaworld.space
@@ -42,7 +42,7 @@ const config = {
                 github_username: "nik9play"
             }
         ],
-        version: "0.0.4",
+        version: "0.0.5",
         description: "Simple plugin that allows you to resize the picture-in-picture popup using the mouse wheel and the settings.",
         authorLink: "https://megaworld.space",
         paypalLink: "https://vk.com/app6887721_-197274096",
@@ -50,6 +50,12 @@ const config = {
         github_raw: "https://raw.githubusercontent.com/nik9play/BetterDiscordPlugins/main/Releases/BetterPictureInPicture.plugin.js"
     },
     changelog: [
+        {
+            title: "Fixes",
+            items: [
+                "Updated selectors for new Discord update"
+            ]
+        },
         {
             title: "Fixes",
             items: [
@@ -162,11 +168,11 @@ module.exports = !global.ZeresPluginLibrary ? Dummy : (([Plugin, Api]) => {
       this.setSize()
       // Logger.log(_.defaults({ 'a': 1 }, { 'a': 3, 'b': 2 }))
       if (this.settings['hideswitch']) {
-        BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
+        BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow_"] {display:none!important}`)
       }
 
-      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo-"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
-      BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo-"] {width: var(--bpip-width);height:var(--bpip-height)!important}`)
+      BdApi.injectCSS('betterpictureinpicturecss-animation', `div[class^="pictureInPictureVideo_"] {transition: width .2s cubic-bezier(0.65,0.05,0.36,1), height .2s cubic-bezier(0.65,0.05,0.36,1);}`)
+      BdApi.injectCSS('betterpictureinpicturecss', `div[class^="pictureInPictureVideo_"] {width: var(--bpip-width);height:var(--bpip-height)!important}`)
 
       DOMTools.observer.subscribe(changes => {
         if (changes.addedNodes.length > 0) {
@@ -177,7 +183,7 @@ module.exports = !global.ZeresPluginLibrary ? Dummy : (([Plugin, Api]) => {
           Logger.log('PiP stopped.')
         }
       },
-      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture-') }
+      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture__') }
       )
 
       function wheelSize(e) {
@@ -202,7 +208,7 @@ module.exports = !global.ZeresPluginLibrary ? Dummy : (([Plugin, Api]) => {
 
       this.wheelSize = wheelSize.bind(this)
       
-      const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
+      const window = DOMTools.query('div[class^="pictureInPictureWindow_"]')
       if (window)
         this.onPipStarted(window)
     }
@@ -216,7 +222,7 @@ module.exports = !global.ZeresPluginLibrary ? Dummy : (([Plugin, Api]) => {
 
       DOMTools.observer.unsubscribeAll()
 
-      const window = DOMTools.query('div[class^="pictureInPictureWindow-"]')
+      const window = DOMTools.query('div[class^="pictureInPictureWindow_"]')
       window?.removeEventListener('wheel', this.wheelSize)
     }
 
@@ -247,7 +253,7 @@ module.exports = !global.ZeresPluginLibrary ? Dummy : (([Plugin, Api]) => {
 
         if (this.settings['hideswitch']) {
           BdApi.clearCSS('betterpictureinpicturecss-hide')
-          BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow-"] {display:none!important}`)
+          BdApi.injectCSS('betterpictureinpicturecss-hide', `div[class^="pictureInPictureWindow_"] {display:none!important}`)
         } else {
           BdApi.clearCSS('betterpictureinpicturecss-hide')
         }
