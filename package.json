@@ -2,7 +2,7 @@
   "dependencies": {
     "zerespluginlibrary": "^2.0.6"
   },
-  "name": "betterdiscordplugins",
+  "name": "BetterDiscordPlugins",
   "description": "My plugins for BetterDiscord",
   "version": "1.0.0",
   "main": "index.js",

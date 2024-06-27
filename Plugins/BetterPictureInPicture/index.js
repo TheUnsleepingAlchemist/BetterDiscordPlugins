@@ -23,7 +23,7 @@ module.exports = (Plugin, Library) => {
           Logger.log('PiP stopped.')
         }
       },
-      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture__') }
+      changes => { return changes.target?.classList[0]?.startsWith('pictureInPicture_') }
       )
 
       function wheelSize(e) {
@@ -32,7 +32,7 @@ module.exports = (Plugin, Library) => {
           scaleX += e.deltaY * -0.1
           let scaleY = parseFloat(this.settings['customheight'])
           scaleY += e.deltaY * -0.05625
-          
+
           this.settings['customwidth'] = scaleX
           this.settings['customheight'] = scaleY
         } else {
@@ -47,7 +47,7 @@ module.exports = (Plugin, Library) => {
       }
 
       this.wheelSize = wheelSize.bind(this)
-      
+
       const window = DOMTools.query('div[class^="pictureInPictureWindow_"]')
       if (window)
         this.onPipStarted(window)
